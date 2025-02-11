@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>track xkcd</title>
+  <link rel="stylesheet" href="src/styles.css">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+</head>
+<body>
+  <div class="comic-container">
+    <h1>XKCD Reader</h1>
+    <div class="navigation">
+      <button id="prevButton" class="button">&lt; Prev</button>
+      <button id="nextButton" class="button">Next &gt;</button>
+      <button id="latestButton" class="button">&gt;&vert;</button>
+    </div>
+    <div id="comicDisplay"></div>
+    <div id="readStatus" class="read-status"></div>
+    <div class="management">
+      <button id="unreadButton" class="button"><u>M</u>ark Unread</button>
+      <button id="incognitoButton" class="button"><u>I</u>ncognito</button>
+      <button id="exportButton" class="button">Export Read History</button>
+    </div>
+  </div>
+  <script type="module" src="src/main.ts"></script>
+</body>
+</html>
