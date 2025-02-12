@@ -1,7 +1,7 @@
 .comic-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
   text-align: center;
 }
 
@@ -65,7 +65,7 @@
 }
 
 #comicDisplay {
-  padding: 1px 10px 40px 10px;
+  padding: 10px 10px 10px 10px;
   border-radius: 8px;
 }
 

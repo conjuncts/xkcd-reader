@@ -2,11 +2,25 @@ import { ComicReadStatus } from "./types";
 
 export class ReadTracker {
     private static readonly STORAGE_KEY = 'xkcd-read-status';
-    private static readonly LAST_READ = 'xkcd-last-read';
+    private static readonly AUX_DATA = 'xkcd-session-data';
 
     static getReadStatus(): Record<number, ComicReadStatus> {
         const stored = localStorage.getItem(this.STORAGE_KEY);
         return stored ? JSON.parse(stored) : {};
+    }
+
+    static getAuxData(): Record<string, any> {
+        const stored = localStorage.getItem(this.AUX_DATA);
+        try {
+            const aux = stored ? JSON.parse(stored) : {};
+            // is dict?
+            if (typeof aux !== 'object') {
+                return {};
+            }
+            return aux;
+        } catch (e) {
+            return {};
+        }
     }
 
     static markAsRead(comicId: number): void {
@@ -23,7 +37,11 @@ export class ReadTracker {
         }
         
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(status));
-        localStorage.setItem(this.LAST_READ, comicId.toString());
+
+        var aux = this.getAuxData();
+        aux['readLast'] = comicId.toString();
+
+        localStorage.setItem(this.AUX_DATA, JSON.stringify(aux));
     }
 
     static markAsUnread(comicId: number): void {
@@ -39,7 +57,22 @@ export class ReadTracker {
     }
 
     static getLastRead(): number | null {
-        return parseInt(localStorage.getItem(this.LAST_READ) || '');
+        // return parseInt(localStorage.getItem(this.LAST_READ) || '');
+        const aux = this.getAuxData();
+        return parseInt(aux.get('readLast') || '');
+    }
+
+    static getIncognitoStatus(): boolean {
+        const aux = this.getAuxData();
+        console.log(aux);
+        return aux['incognitoLast'] ?? false;
+    }
+
+    static saveIncognitoStatus(incognito: boolean): void {
+        console.log(incognito);
+        const aux = this.getAuxData();
+        aux['incognitoLast'] = incognito;
+        localStorage.setItem(this.AUX_DATA, JSON.stringify(aux));
     }
 
     static exportToTsv(): string {

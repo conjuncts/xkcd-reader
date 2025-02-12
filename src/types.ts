@@ -3,6 +3,11 @@ export interface ComicReadStatus {
     lastRead: string;
 }
 
+export interface AuxiliaryData {
+    readLast: number;
+    incognitoLast: boolean;
+}
+
 export interface ComicData {
     num: number;
     title: string;
