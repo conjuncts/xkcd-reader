@@ -1,7 +1,8 @@
 import { ComicData } from "./types";
 
 export async function fetchComic(id?: number): Promise<ComicData> {
-    const proxyUrl = 'https://corsproxy.io/?url='; // Example proxy
+    // do not use proxy
+    const proxyUrl = ''; // https://corsproxy.io/?url='; // Example proxy
 
     const url = id 
         ? `https://xkcd.com/${id}/info.0.json`
