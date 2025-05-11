@@ -29,7 +29,7 @@ class XKCDReader {
 
     private getComicIdFromUrl(): number | null {
         const path = window.location.pathname;
-        const match = path.match(/^\/(\d+)$/);
+        const match = path.match(/^\/(\d+)\/?$/);
         return match ? parseInt(match[1], 10) : null;
     }
 
@@ -174,6 +174,10 @@ class XKCDReader {
         
         document.getElementById('latestButton')?.addEventListener('click', () => {
             if (this.currentComic) this.loadLatestComic();
+        });
+
+        document.getElementById('readButton')?.addEventListener('click', () => {
+            if (this.currentComic) this.markRead(this.currentComic.num);
         });
 
         let markUnreadListener = () => {
