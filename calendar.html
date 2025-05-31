@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XKCD Calendar - track xkcd</title>
+    <link rel="stylesheet" href="src/styles.css">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+</head>
+<body>
+    <div class="calendar-container">
+        <h1>XKCD Calendar View</h1>
+        <div class="navigation">
+            <a href="/" class="button">← Back to Reader</a>
+            <button id="settingsButton" class="button">⚙️ Settings</button>
+        </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>Reading Mode</h3>
+                    <div class="toggle-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="incognitoToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span id="incognitoLabel" class="toggle-label">Incognito Mode</span>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Data Management</h3>
+                    <button id="exportButton" class="button">Export Read History</button>
+                    <button id="importButton" class="button">Import Read History</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>All comics are from <a href="https://xkcd.com" target="_blank" rel="noopener">xkcd.com</a> by Randall Munroe</p>
+        <p class="footer-note">This is an unofficial reader. Thank you Randall for your amazing work!</p>
+    </footer>
+
+    <script type="module" src="src/calendar.ts"></script>
+</body>
+</html> 

@@ -39,9 +39,6 @@ body {
 }
 
 .button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -61,6 +58,7 @@ body {
   margin: 0 4px;
   padding: 1.5px 12px;
   text-align: center;
+  font-family: Lucida, Helvetica, sans-serif;
 }
 
 .management .button.active {
@@ -264,4 +262,70 @@ input:focus + .toggle-slider {
 
 .interactive-message a:hover {
   text-decoration: underline;
+}
+
+/* Calendar View styles */
+.calendar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+}
+
+.calendar-grid {
+    display: grid;
+    /* grid-template-columns: repeat(10, 1fr); */
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; /* 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;*/
+    gap: 15px;
+    /* justify-content: center; */
+}
+
+.calendar-comic {
+    display: inline-block;
+    min-width: 0;
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-align: center;
+    background: #fff3e0;
+    border: 1px solid #ffb74d;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+.calendar-comic:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-comic.read {
+    background: #e8f5e9;
+    border-color: #81c784;
+}
+
+.calendar-comic.unread {
+    background-color: #fff3e0;
+    border-color: #ffb74d;
+}
+
+.comic-status {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+    padding: 20px 0;
+}
+
+.pagination span {
+    color: #666;
+}
+
+.pagination .button {
+    min-width: 40px;
 }
