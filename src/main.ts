@@ -117,7 +117,18 @@ class XKCDReader {
         // const title = document.createElement('h2');
         const title = document.getElementById('xkcdTitle')!;
         title.textContent = `${comic.title} (#${comic.num})`;
-        // comicDisplay.appendChild(title);
+
+        // Check if comic is interactive
+        if (comic.isInteractive) {
+            const interactiveMessage = document.createElement('div');
+            interactiveMessage.className = 'interactive-message';
+            interactiveMessage.innerHTML = `
+                <p>This is an interactive comic!</p>
+                <p>Please visit <a href="https://xkcd.com/${comic.num}" target="_blank" rel="noopener">xkcd.com/${comic.num}</a> to view it.</p>
+            `;
+            comicDisplay.appendChild(interactiveMessage);
+            return;
+        }
 
         // Create and append image
         const img = document.createElement('img');

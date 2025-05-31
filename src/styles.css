@@ -241,3 +241,27 @@ input:focus + .toggle-slider {
   margin-top: 8px;
   font-size: 12px;
 }
+
+/* Interactive comic message */
+.interactive-message {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.interactive-message p {
+  margin: 10px 0;
+  color: #666;
+}
+
+.interactive-message a {
+  color: #6E7B91;
+  text-decoration: none;
+}
+
+.interactive-message a:hover {
+  text-decoration: underline;
+}

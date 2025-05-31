@@ -13,4 +13,5 @@ export interface ComicData {
     title: string;
     img: string;
     alt: string;
+    isInteractive?: boolean;
 }
