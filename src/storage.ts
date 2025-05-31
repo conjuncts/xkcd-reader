@@ -75,7 +75,7 @@ export class ReadTracker {
         localStorage.setItem(this.AUX_DATA, JSON.stringify(aux));
     }
 
-    static exportToTsv(): string {
+    static exportToCsv(): string {
         const status = this.getReadStatus();
         const rows = [['Comic ID', 'First Read', 'Last Read']];
         
@@ -84,8 +84,49 @@ export class ReadTracker {
         });
         console.log(rows);
 
-        const out = rows.map(row => row.join('\t')).join('\n');
+        const out = rows.map(row => row.join(',')).join('\n');
         console.log(out);
         return out;
+    }
+
+    static importFromCsv(csvContent: string): void {
+        // Try to detect the separator by looking at the first line
+        const firstLine = csvContent.split('\n')[0];
+        const separator = firstLine.includes(',') ? ',' : '\t';
+        
+        const rows = csvContent.split('\n').map(row => row.split(separator));
+        
+        // Skip header row
+        const dataRows = rows.slice(1);
+        
+        const status = this.getReadStatus();
+        
+        dataRows.forEach(row => {
+            if (row.length === 3) {
+                const [id, firstRead, lastRead] = row;
+                const comicId = parseInt(id);
+                if (!isNaN(comicId)) {
+                    // If comic already exists, only update if the imported data is newer
+                    if (status[comicId]) {
+                        const existingLastRead = new Date(status[comicId].lastRead);
+                        const importedLastRead = new Date(lastRead);
+                        if (importedLastRead > existingLastRead) {
+                            status[comicId] = {
+                                firstRead: status[comicId].firstRead, // Keep original first read
+                                lastRead: lastRead // Update with newer last read
+                            };
+                        }
+                    } else {
+                        // If comic doesn't exist, add it
+                        status[comicId] = {
+                            firstRead,
+                            lastRead
+                        };
+                    }
+                }
+            }
+        });
+        
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(status));
     }
 }

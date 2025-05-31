@@ -201,7 +201,7 @@ class XKCDReader {
         document.getElementById('incognitoButton')?.addEventListener('click', incognitoListener);
 
         document.getElementById('exportButton')?.addEventListener('click', () => {
-            const tsv = ReadTracker.exportToTsv();
+            const tsv = ReadTracker.exportToCsv();
             const blob = new Blob([tsv], { type: 'text/tsv' });
             const url = URL.createObjectURL(blob);
 
@@ -212,6 +212,32 @@ class XKCDReader {
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('importButton')?.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.csv,.tsv';
+            
+            input.onchange = (e) => {
+                const file = (e.target as HTMLInputElement).files?.[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const content = event.target?.result as string;
+                        if (content) {
+                            ReadTracker.importFromCsv(content);
+                            // Refresh the current comic display to show updated read status
+                            if (this.currentComic) {
+                                this.displayComic(this.currentComic);
+                            }
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            
+            input.click();
         });
 
         // keybinds
