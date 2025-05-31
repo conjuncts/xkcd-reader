@@ -39,45 +39,45 @@
   transition: background-color 0.3s;
 }
 
-.navigation .button {
-  background-color: #4CAF50;
-}
-
-.navigation .button:hover {
-  background-color: #45a049;
-}
-
-.management .button {
-  background-color: #666;
-}
-
-.management .button:hover {
-  background-color: #45a049;
+.navigation .button, .management .button {
+  /*These CSS styles follow exactly xkcd and explainxkcd*/
+  background-color: #6E7B91;
+  border: 1.5px solid #333333;
+  border-radius: 3px 3px 3px 3px;
+  box-shadow: 0 0 5px 0 gray;
+  font-size: 16px;
+  font-variant: small-caps;
+  font-weight: 600;
+  margin: 0 4px;
+  padding: 1.5px 12px;
+  text-align: center;
 }
 
 .management .button.active {
-  background-color: #45a049;
+  background-color: #1976D2;
 }
 
+.navigation .button:hover, .management.management .button:hover {
+  background-color: #FFF;
+  color: #6E7B91;
+}
+
+
+
 .button:disabled.button:disabled {
-  background-color: #cccccc;
+  background-color: #B0BEC5;
   cursor: not-allowed;
 }
 
 #comicDisplay {
-  padding: 10px 10px 10px 10px;
-  border-radius: 8px;
+  padding: 20px 10px 10px 10px;
+  border-radius: 16px;
 }
 
 .previously-read {
-  /* border: 2px solid #4CAF50; */
-  background-color: #cccccc;
-
+  background-color: #ECEFF1;
 }
 
 .just-read {
-  /* border: 2px solid #cccccc; */
-  /* border: #cccccc; */
-  box-shadow:inset 0px 0px 0px 4px #cccccc;
-
+  box-shadow: inset 0px 0px 0px 4px #B0BEC5;
 }
