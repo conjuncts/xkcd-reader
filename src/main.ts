@@ -88,6 +88,7 @@ class XKCDReader {
     }
 
     private markRead(comicNum: number, previouslyRead?: ComicReadStatus): void { // mark a comic read in non-incognito mode
+        // console.log('marking read');
         if (previouslyRead === undefined) {
             previouslyRead = ReadTracker.getReadStatus()[comicNum];
         }
@@ -137,7 +138,7 @@ class XKCDReader {
         // incognito, something --> show it
         // browse, nothing --> just read
         // browse, something --> show it, mark read
-        if (this.isIncognito) {
+        if (this.isIncognito || this.isIncognito === undefined) {
             if (!previouslyRead) {
                 readStatusElement.textContent = 'Not read yet';
             }
@@ -153,12 +154,17 @@ class XKCDReader {
         this.updateNextButton(this.latestComicId !== null && comic.num >= this.latestComicId);
     }
 
+    /**
+     * Re-renders the incognito toggle
+     */
     private _rerenderIncognito(): void {
-        const incognitoButton = document.getElementById('incognitoButton') as HTMLButtonElement;
-        if (this.isIncognito) {
-            incognitoButton.classList.add('active');
-        } else {
-            incognitoButton.classList.remove('active');
+        const incognitoToggle = document.getElementById('incognitoToggle') as HTMLInputElement;
+        if (incognitoToggle) {
+            incognitoToggle.checked = this.isIncognito;
+        }
+        const incognitoLabel = document.getElementById('incognitoLabel') as HTMLSpanElement;
+        if (incognitoLabel) {
+            incognitoLabel.textContent = this.isIncognito ? 'Incognito Mode (ON)' : 'Incognito Mode (OFF)';
         }
     }
 
@@ -171,7 +177,6 @@ class XKCDReader {
             if (this.currentComic) this.loadComic(this.currentComic.num + 1);
         });
 
-        
         document.getElementById('latestButton')?.addEventListener('click', () => {
             if (this.currentComic) this.loadLatestComic();
         });
@@ -183,8 +188,6 @@ class XKCDReader {
         let markUnreadListener = () => {
             if (this.currentComic) {
                 ReadTracker.markAsUnread(this.currentComic.num);
-                // this.displayComic(this.currentComic);
-
                 const readStatusElement = document.getElementById('readStatus')!;
                 readStatusElement.textContent = 'Not read yet';
                 const comicDisplay = document.getElementById('comicDisplay')!;
@@ -193,12 +196,31 @@ class XKCDReader {
         };
         document.getElementById('unreadButton')?.addEventListener('click', markUnreadListener);
 
+        // Settings modal handling
+        const modal = document.getElementById('settingsModal')!;
+        const settingsButton = document.getElementById('settingsButton')!;
+        const closeButton = document.querySelector('.close')!;
+
+        settingsButton.addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+
+        closeButton.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
         let incognitoListener = () => {
             this.isIncognito = !this.isIncognito;
             this._rerenderIncognito();
             ReadTracker.saveIncognitoStatus(this.isIncognito);
         };
-        document.getElementById('incognitoButton')?.addEventListener('click', incognitoListener);
+        document.getElementById('incognitoToggle')?.addEventListener('change', incognitoListener);
 
         document.getElementById('exportButton')?.addEventListener('click', () => {
             const tsv = ReadTracker.exportToCsv();
@@ -242,6 +264,9 @@ class XKCDReader {
 
         // keybinds
         document.addEventListener('keydown', (event) => {
+            // Ignore if Ctrl is pressed
+            if (event.ctrlKey) return;
+
             switch (event.key) {
                 case 'ArrowLeft':
                     if (this.currentComic) this.loadComic(this.currentComic.num - 1);
@@ -257,7 +282,14 @@ class XKCDReader {
                     markUnreadListener();
                     break;
                 case 'i':
-                    incognitoListener();
+                    const incognitoToggle = document.getElementById('incognitoToggle') as HTMLInputElement;
+                    if (incognitoToggle) {
+                        incognitoToggle.checked = !incognitoToggle.checked;
+                        incognitoListener();
+                    }
+                    break;
+                case 'Escape':
+                    modal.classList.remove('active');
                     break;
             }
         });

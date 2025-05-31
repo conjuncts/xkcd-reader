@@ -57,15 +57,14 @@ export class ReadTracker {
     }
 
     static getLastRead(): number | null {
-        // return parseInt(localStorage.getItem(this.LAST_READ) || '');
         const aux = this.getAuxData();
-        return parseInt(aux.get('readLast') || '');
+        return parseInt(aux['readLast'] || '');
     }
 
     static getIncognitoStatus(): boolean {
         const aux = this.getAuxData();
         console.log(aux);
-        return aux['incognitoLast'] ?? false;
+        return aux['incognitoLast'] ?? true;
     }
 
     static saveIncognitoStatus(incognito: boolean): void {

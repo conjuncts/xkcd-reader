@@ -21,11 +21,37 @@
     <div class="management">
       <button id="readButton" class="button">Mark <u>R</u>ead</button>
       <button id="unreadButton" class="button">Mark <u>U</u>nread</button>
-      <button id="incognitoButton" class="button"><u>I</u>ncognito</button>
-      <button id="exportButton" class="button">Export Read History</button>
-      <button id="importButton" class="button">Import Read History</button>
+      <button id="settingsButton" class="button">⚙️ Settings</button>
     </div>
   </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="settings-section">
+          <h3>Reading Mode</h3>
+          <div class="toggle-container">
+            <label class="toggle-switch">
+              <input type="checkbox" id="incognitoToggle">
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label" id="incognitoLabel">Incognito Mode</span>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>Data Management</h3>
+          <button id="exportButton" class="button">Export Read History</button>
+          <button id="importButton" class="button">Import Read History</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="src/main.ts"></script>
 </body>
 </html>
