@@ -9,39 +9,17 @@
 </head>
 <body>
     <div class="calendar-container">
-        <h1>XKCD Calendar View</h1>
+        <!-- <h1>XKCD Calendar View</h1> -->
         <div class="navigation">
             <a href="/" class="button">← Back to Reader</a>
-            <button id="settingsButton" class="button">⚙️ Settings</button>
         </div>
         <div id="calendarGrid" class="calendar-grid"></div>
     </div>
 
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Settings</h2>
-                <span class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="settings-section">
-                    <h3>Reading Mode</h3>
-                    <div class="toggle-container">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="incognitoToggle">
-                            <span class="toggle-slider"></span>
-                        </label>
-                        <span id="incognitoLabel" class="toggle-label">Incognito Mode</span>
-                    </div>
-                </div>
-                <div class="settings-section">
-                    <h3>Data Management</h3>
-                    <button id="exportButton" class="button">Export Read History</button>
-                    <button id="importButton" class="button">Import Read History</button>
-                </div>
-            </div>
-        </div>
+    <div class="pagination" id="pagination">
+        <button class="button" id="prevPage">←</button>
+        <span id="paginationStatus"></span>
+        <button class="button" disabled="" id="nextPage">→</button>
     </div>
 
     <footer class="footer">

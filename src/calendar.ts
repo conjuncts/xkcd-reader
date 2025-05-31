@@ -1,16 +1,12 @@
 import { fetchComic } from './api';
 import { ReadTracker } from './storage';
-import { ComicData } from './types';
 
 class XKCDCalendar {
     private latestComicId: number | null = null;
-    private isIncognito: boolean = true;
-    private comicsPerPage: number = 50;
+    private comicsPerPage: number = 100;
     private currentPage: number = 1;
 
     constructor() {
-        this.isIncognito = ReadTracker.getIncognitoStatus();
-        this._rerenderIncognito();
         this.initializeEventListeners();
         this.loadLatestComic();
     }
@@ -18,6 +14,7 @@ class XKCDCalendar {
     private async loadLatestComic(): Promise<void> {
         const comic = await fetchComic();
         this.latestComicId = comic.num;
+        this.currentPage = Math.ceil(this.latestComicId / this.comicsPerPage);
         this.renderCalendar();
     }
 
@@ -27,8 +24,11 @@ class XKCDCalendar {
         const grid = document.getElementById('calendarGrid')!;
         grid.innerHTML = '';
 
-        const startId = Math.max(1, this.latestComicId - (this.currentPage * this.comicsPerPage) + 1);
-        const endId = Math.max(1, this.latestComicId - ((this.currentPage - 1) * this.comicsPerPage));
+        // const startId = Math.max(1, this.latestComicId - (this.currentPage * this.comicsPerPage) + 1);
+        // const endId = Math.max(1, this.latestComicId - ((this.currentPage - 1) * this.comicsPerPage));
+        const startId = 100 * (this.currentPage - 1) + 1;
+        const endId = Math.min(100 * (this.currentPage), this.latestComicId);
+
 
         for (let id = startId; id <= endId; id++) {
             const comicElement = document.createElement('div');
@@ -56,103 +56,49 @@ class XKCDCalendar {
 
         // Add pagination controls
         const totalPages = Math.ceil(this.latestComicId / this.comicsPerPage);
-        const pagination = document.createElement('div');
-        pagination.className = 'pagination';
-        pagination.innerHTML = `
-            <button class="button" ${this.currentPage === 1 ? 'disabled' : ''} id="prevPage">←</button>
-            <span>Page ${this.currentPage} of ${totalPages}</span>
-            <button class="button" ${this.currentPage === totalPages ? 'disabled' : ''} id="nextPage">→</button>
-        `;
-        grid.parentElement!.appendChild(pagination);
-    }
+        const paginationStatus = document.getElementById('paginationStatus')!;
+        paginationStatus.innerText = `Page ${this.currentPage} of ${totalPages}`;
+        
+        if (this.currentPage === 1) {
+            document.getElementById("prevPage")?.setAttribute("disabled", "true");
+        } else {
+            document.getElementById("prevPage")?.removeAttribute("disabled");
+        }
+        if (this.currentPage === totalPages) {
+            document.getElementById("nextPage")?.setAttribute("disabled", "true");
+        } else {
+            document.getElementById("nextPage")?.removeAttribute("disabled");
+        }
 
-    private _rerenderIncognito(): void {
-        const incognitoToggle = document.getElementById('incognitoToggle') as HTMLInputElement;
-        if (incognitoToggle) {
-            incognitoToggle.checked = this.isIncognito;
-        }
-        const incognitoLabel = document.getElementById('incognitoLabel') as HTMLSpanElement;
-        if (incognitoLabel) {
-            incognitoLabel.textContent = this.isIncognito ? 'Incognito Mode (ON)' : 'Incognito Mode (OFF)';
-        }
+        // pagination.innerHTML = `
+        //     <button class="button" ${this.currentPage === 1 ? 'disabled' : ''} id="prevPage">←</button>
+        //     <button class="button" ${this.currentPage === totalPages ? 'disabled' : ''} id="nextPage">→</button>
+        // `;
+        // grid.parentElement!.appendChild(pagination);
     }
 
     private initializeEventListeners(): void {
-        // Settings modal handling
-        const modal = document.getElementById('settingsModal')!;
-        const settingsButton = document.getElementById('settingsButton')!;
-        const closeButton = document.querySelector('.close')!;
-
-        settingsButton.addEventListener('click', () => {
-            modal.classList.add('active');
-        });
-
-        closeButton.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.classList.remove('active');
-            }
-        });
-
-        // Incognito toggle
-        document.getElementById('incognitoToggle')?.addEventListener('change', () => {
-            this.isIncognito = !this.isIncognito;
-            this._rerenderIncognito();
-            ReadTracker.saveIncognitoStatus(this.isIncognito);
-            this.renderCalendar();
-        });
 
         // Pagination
         document.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;
             if (target.id === 'prevPage' && this.currentPage > 1) {
-                this.currentPage--;
-                this.renderCalendar();
+            this.currentPage--;
+            this.renderCalendar();
             } else if (target.id === 'nextPage' && this.currentPage < Math.ceil(this.latestComicId! / this.comicsPerPage)) {
-                this.currentPage++;
-                this.renderCalendar();
+            this.currentPage++;
+            this.renderCalendar();
             }
         });
 
-        // Import/Export
-        document.getElementById('exportButton')?.addEventListener('click', () => {
-            const tsv = ReadTracker.exportToCsv();
-            const blob = new Blob([tsv], { type: 'text/tsv' });
-            const url = URL.createObjectURL(blob);
-
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'xkcd-read-history.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-
-        document.getElementById('importButton')?.addEventListener('click', () => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.csv,.tsv';
-            
-            input.onchange = (e) => {
-                const file = (e.target as HTMLInputElement).files?.[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        const content = event.target?.result as string;
-                        if (content) {
-                            ReadTracker.importFromCsv(content);
-                            this.renderCalendar();
-                        }
-                    };
-                    reader.readAsText(file);
-                }
-            };
-            
-            input.click();
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft' && this.currentPage > 1) {
+                this.currentPage--;
+                this.renderCalendar();
+            } else if (event.key === 'ArrowRight' && this.currentPage < Math.ceil(this.latestComicId! / this.comicsPerPage)) {
+                this.currentPage++;
+                this.renderCalendar();
+            }
         });
     }
 }
