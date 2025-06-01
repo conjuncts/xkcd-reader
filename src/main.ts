@@ -294,6 +294,11 @@ class XKCDReader {
                     break;
                 case 'c':
                     // calendar
+                    if (this.currentComic) {
+                        const aux = ReadTracker.getAuxData();
+                        aux['readLast'] = this.currentComic.num.toString();
+                        localStorage.setItem(ReadTracker['AUX_DATA'], JSON.stringify(aux));
+                    }
                     window.location.href = '/calendar';
                     break;
                 case 'Escape':

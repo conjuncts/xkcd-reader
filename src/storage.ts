@@ -2,7 +2,7 @@ import { ComicReadStatus } from "./types";
 
 export class ReadTracker {
     private static readonly STORAGE_KEY = 'xkcd-read-status';
-    private static readonly AUX_DATA = 'xkcd-session-data';
+    private static readonly AUX_DATA = 'xkcd-session-status';
 
     static getReadStatus(): Record<number, ComicReadStatus> {
         const stored = localStorage.getItem(this.STORAGE_KEY);

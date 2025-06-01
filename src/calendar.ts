@@ -5,6 +5,7 @@ class XKCDCalendar {
     private latestComicId: number | null = null;
     private comicsPerPage: number = 100;
     private currentPage: number = 1;
+    private cameFrom: number | null = null;
 
     constructor() {
         this.initializeEventListeners();
@@ -13,8 +14,10 @@ class XKCDCalendar {
 
     private async loadLatestComic(): Promise<void> {
         const comic = await fetchComic();
+        this.cameFrom = ReadTracker.getLastRead() ?? comic.num;
         this.latestComicId = comic.num;
-        this.currentPage = Math.ceil(this.latestComicId / this.comicsPerPage);
+
+        this.currentPage = Math.ceil(this.cameFrom / this.comicsPerPage);
         this.renderCalendar();
     }
 
@@ -24,11 +27,8 @@ class XKCDCalendar {
         const grid = document.getElementById('calendarGrid')!;
         grid.innerHTML = '';
 
-        // const startId = Math.max(1, this.latestComicId - (this.currentPage * this.comicsPerPage) + 1);
-        // const endId = Math.max(1, this.latestComicId - ((this.currentPage - 1) * this.comicsPerPage));
-        const startId = 100 * (this.currentPage - 1) + 1;
-        const endId = Math.min(100 * (this.currentPage), this.latestComicId);
-
+        const startId = this.comicsPerPage * (this.currentPage - 1) + 1;
+        const endId = Math.min(this.comicsPerPage * (this.currentPage), this.latestComicId);
 
         for (let id = startId; id <= endId; id++) {
             const comicElement = document.createElement('div');
@@ -69,25 +69,18 @@ class XKCDCalendar {
         } else {
             document.getElementById("nextPage")?.removeAttribute("disabled");
         }
-
-        // pagination.innerHTML = `
-        //     <button class="button" ${this.currentPage === 1 ? 'disabled' : ''} id="prevPage">←</button>
-        //     <button class="button" ${this.currentPage === totalPages ? 'disabled' : ''} id="nextPage">→</button>
-        // `;
-        // grid.parentElement!.appendChild(pagination);
     }
 
     private initializeEventListeners(): void {
-
         // Pagination
         document.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;
             if (target.id === 'prevPage' && this.currentPage > 1) {
-            this.currentPage--;
-            this.renderCalendar();
+                this.currentPage--;
+                this.renderCalendar();
             } else if (target.id === 'nextPage' && this.currentPage < Math.ceil(this.latestComicId! / this.comicsPerPage)) {
-            this.currentPage++;
-            this.renderCalendar();
+                this.currentPage++;
+                this.renderCalendar();
             }
         });
 
@@ -102,7 +95,11 @@ class XKCDCalendar {
                 this.renderCalendar();
             } else if (event.key === 'r') {
                 // return to reader
-                window.location.href = '/';
+                if (this.cameFrom) {
+                    window.location.href = `/${this.cameFrom}`;
+                } else {
+                    window.location.href = '/';
+                }
             }
         });
     }
