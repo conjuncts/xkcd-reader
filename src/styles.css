@@ -1,3 +1,7 @@
+:root {
+  --xkcd: #6E7B91;
+}
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -38,17 +42,21 @@ body {
   color: #666;
 }
 
-:root {
-  --xkcd: #6E7B91;
-  --inactive: #ccc;
+a {
+  color: var(--xkcd);
+  text-decoration: none;
 }
 
-.button {
+a:hover {
+  text-decoration: underline;
+}
+
+.button.button {
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
   /*These CSS styles follow exactly xkcd and explainxkcd*/
-  background-color: #6E7B91;
+  background-color: var(--xkcd);
   border: 1.5px solid #333333;
   border-radius: 3px 3px 3px 3px;
   box-shadow: 0 0 5px 0 gray;
@@ -62,13 +70,9 @@ body {
   text-decoration: none;
 }
 
-.management .button.active {
-  background-color: #1976D2;
-}
-
 .button:hover {
   background-color: #FFF;
-  color: #6E7B91;
+  color: var(--xkcd);
 }
 
 .button:disabled.button:disabled {
@@ -203,7 +207,7 @@ body {
 }
 
 input:checked + .toggle-slider {
-  background-color: #6E7B91;
+  background-color: var(--xkcd);
 }
 
 input:checked + .toggle-slider:before {
@@ -211,7 +215,7 @@ input:checked + .toggle-slider:before {
 }
 
 input:focus + .toggle-slider {
-  box-shadow: 0 0 1px #6E7B91;
+  box-shadow: 0 0 1px var(--xkcd);
 }
 
 /* Footer styles */
@@ -223,15 +227,6 @@ input:focus + .toggle-slider {
   color: #999;
   font-size: 14px;
   border-top: 1px solid #eee;
-}
-
-.footer a {
-  color: #6E7B91;
-  text-decoration: none;
-}
-
-.footer a:hover {
-  text-decoration: underline;
 }
 
 .footer-note {
@@ -255,16 +250,6 @@ input:focus + .toggle-slider {
   margin: 10px 0;
   color: #666;
 }
-
-.interactive-message a {
-  color: #6E7B91;
-  text-decoration: none;
-}
-
-.interactive-message a:hover {
-  text-decoration: underline;
-}
-
 /* Calendar View styles */
 .calendar-container {
     max-width: 1200px;
@@ -305,7 +290,7 @@ input:focus + .toggle-slider {
 
 .calendar-comic.unread {
     background-color: white;
-    border-color: var(--inactive);
+    border-color: #ccc;
 }
 
 .comic-status {

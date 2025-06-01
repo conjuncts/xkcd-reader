@@ -157,6 +157,11 @@ class XKCDReader {
             this.markRead(comic.num, previouslyRead);
         }
         
+        // Update comic links
+        const comicLinks = document.getElementById('comicLinks')!;
+        const links = comicLinks.getElementsByTagName('a');
+        links[0].href = `https://xkcd.com/${comic.num}`;
+        links[1].href = `https://www.explainxkcd.com/wiki/index.php/${comic.num}`;
 
         // Update button states
         const prevButton = document.getElementById('prevButton') as HTMLButtonElement;
