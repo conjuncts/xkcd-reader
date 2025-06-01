@@ -92,12 +92,17 @@ class XKCDCalendar {
         });
 
         document.addEventListener('keydown', (event) => {
+            if (event.ctrlKey) return;
+
             if (event.key === 'ArrowLeft' && this.currentPage > 1) {
                 this.currentPage--;
                 this.renderCalendar();
             } else if (event.key === 'ArrowRight' && this.currentPage < Math.ceil(this.latestComicId! / this.comicsPerPage)) {
                 this.currentPage++;
                 this.renderCalendar();
+            } else if (event.key === 'r') {
+                // return to reader
+                window.location.href = '/';
             }
         });
     }

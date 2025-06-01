@@ -292,12 +292,9 @@ class XKCDReader {
                 case 'u':
                     markUnreadListener();
                     break;
-                case 'i':
-                    const incognitoToggle = document.getElementById('incognitoToggle') as HTMLInputElement;
-                    if (incognitoToggle) {
-                        incognitoToggle.checked = !incognitoToggle.checked;
-                        incognitoListener();
-                    }
+                case 'c':
+                    // calendar
+                    window.location.href = '/calendar';
                     break;
                 case 'Escape':
                     modal.classList.remove('active');
