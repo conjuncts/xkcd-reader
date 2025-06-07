@@ -10,7 +10,8 @@
 <body>
   <div class="comic-container">
     <!-- <h1>XKCD Reader</h1> -->
-    <h2 id="xkcdTitle"></h2>
+    <h2 id="xkcdTitle" title="Published: xxxx-xx-xx"></h2>
+
     <div class="navigation">
       <button type="button" id="prevButton" class="button">&lt; Prev</button>
       <button type="button" id="nextButton" class="button">Next &gt;</button>
@@ -23,6 +24,10 @@
       <button type="button" id="unreadButton" class="button">Mark <u>U</u>nread</button>
       <button type="button" id="settingsButton" class="button">⚙️ Settings</button>
       <a href="/calendar" class="button">📅 <u>C</u>alendar</a>
+    </div>
+    <div id="comicMeta" class="comic-meta">
+      <!-- <div id="comicLink" class="comic-link"></div> -->
+      <div id="comicNews" class="comic-news"></div>
     </div>
   </div>
 

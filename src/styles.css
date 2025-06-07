@@ -314,3 +314,17 @@ input:focus + .toggle-slider {
 .pagination .button {
     min-width: 40px;
 }
+
+.comic-meta {
+  margin: 10px 0;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.comic-link {
+  margin-bottom: 5px;
+}
+
+.comic-news {
+  font-style: italic;
+}

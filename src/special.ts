@@ -1,6 +1,8 @@
 // Interactive comics: https://www.explainxkcd.com/wiki/index.php/Category:Interactive_comics
 
-const _interactiveComics = [826,
+const _interactiveComics = [
+404,
+826,
 880,
 1110,
 1350,
@@ -19,7 +21,8 @@ const _interactiveComics = [826,
 2712,
 2765,
 2916,
-3074];
+3074
+];
 
 export function isInteractiveComic(comicNum: number): boolean {
     return _interactiveComics.includes(comicNum);

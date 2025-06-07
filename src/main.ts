@@ -103,6 +103,51 @@ class XKCDReader {
         ReadTracker.markAsRead(comicNum);
     }
 
+    private sanitizeAndDisplayHtml(html: string, targetElement: HTMLElement): void {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Clear existing content
+        targetElement.textContent = '';
+        
+        // Only allow specific tags and attributes
+        const allowedTags = ['a', 'br', 'p', 'em', 'strong'];
+        const allowedAttributes = ['href', 'target', 'rel'];
+        
+        // Process each node
+        const processNode = (node: Node, parentElement: HTMLElement) => {
+            if (node.nodeType === Node.TEXT_NODE) {
+                parentElement.appendChild(node.cloneNode());
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                const element = node as Element;
+                if (allowedTags.includes(element.tagName.toLowerCase())) {
+                    const newElement = document.createElement(element.tagName.toLowerCase());
+                    
+                    // Copy allowed attributes
+                    allowedAttributes.forEach(attr => {
+                        const value = element.getAttribute(attr);
+                        if (value !== null) {
+                            newElement.setAttribute(attr, value);
+                        }
+                    });
+                    
+                    // Process child nodes
+                    Array.from(element.childNodes).forEach(childNode => processNode(childNode, newElement));
+                    
+                    parentElement.appendChild(newElement);
+                } else {
+                    // For non-allowed tags, just process their text content
+                    Array.from(element.childNodes).forEach(childNode => processNode(childNode, parentElement));
+                }
+            }
+        };
+        
+        Array.from(doc.body.childNodes).forEach(node => processNode(node, targetElement));
+        
+        // Hide if no content was added
+        targetElement.style.display = targetElement.hasChildNodes() ? '' : 'none';
+    }
+
     private displayComic(comic: ComicData): void {
         this.currentComic = comic;
         const previouslyRead = ReadTracker.getReadStatus()[comic.num];
@@ -113,10 +158,44 @@ class XKCDReader {
         // Clear existing content
         comicDisplay.textContent = '';
 
-        // Create and append title
-        // const title = document.createElement('h2');
+        // Create and append title with publication date as tooltip
         const title = document.getElementById('xkcdTitle')!;
-        title.textContent = `${comic.title} (#${comic.num})`;
+        title.textContent = `${comic.safe_title} (#${comic.num})`;
+        
+        // Add publication date as tooltip if available
+        if (comic.year && comic.month && comic.day) {
+            const date = new Date(comic.year, comic.month - 1, comic.day);
+            title.title = `Published: ${date.toLocaleDateString()}`;
+        } else {
+            title.title = '';
+        }
+
+        // Display meta information
+        // const comicLink = document.getElementById('comicLink')!;
+        const comicNews = document.getElementById('comicNews')!;
+
+        // Display link if present
+        // if (comic.link) {
+        //     comicLink.innerHTML = `<a href="${comic.link}" target="_blank" rel="noopener">🔗 Related Link</a>`;
+        // } else {
+        //     comicLink.textContent = '';
+        // }
+
+        // Display news if present
+        if (comic.news) {
+            let news = comic.news;
+            // news = news.startsWith('"') ? news.slice(1, -1) : news;
+            // console.log(news);
+            // console.log(news[0]);
+            // if (comic.trusted) {
+            //     comicNews.innerHTML = news;
+            // } else {
+            //     comicNews.textContent = news;
+            // }
+            this.sanitizeAndDisplayHtml(news, comicNews);
+        } else {
+            comicNews.style.display = 'none';
+        }
 
         // Check if comic is interactive
         if (comic.isInteractive) {
@@ -136,7 +215,19 @@ class XKCDReader {
         img.alt = comic.alt;
         img.title = comic.alt;
         img.className = 'comic-image';
-        comicDisplay.appendChild(img);
+
+        // Wrap image in a link - use comic.link if present, otherwise link to xkcd page
+        if (comic.link) {
+            const imgLink = document.createElement('a');
+            imgLink.href = comic.link;
+            imgLink.target = '_blank';
+            imgLink.rel = 'noopener';
+            imgLink.appendChild(img);
+            comicDisplay.appendChild(imgLink);
+        } else {
+            comicDisplay.appendChild(img);
+        }
+        
 
         const readStatusElement = document.getElementById('readStatus')!;
         if (previouslyRead) {
