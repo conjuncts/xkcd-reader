@@ -21,9 +21,9 @@
     <div id="readStatus" class="read-status"></div>
     <div class="management">
       <button type="button" id="readButton" class="button">Mark <u>R</u>ead</button>
-      <button type="button" id="unreadButton" class="button">Mark <u>U</u>nread</button>
-      <button type="button" id="settingsButton" class="button">⚙️ Settings</button>
-      <a href="/calendar" class="button">📅 <u>C</u>alendar</a>
+      <button type="button" id="unreadButton" class="button"><span>Mark</span> <u>U</u>nread</button>
+      <button type="button" id="settingsButton" class="button">⚙️ <span>Settings</span></button>
+      <a href="/calendar" class="button">📅 <span><u>C</u>alendar</span></a>
     </div>
     <div id="comicMeta" class="comic-meta">
       <!-- <div id="comicLink" class="comic-link"></div> -->
@@ -35,7 +35,7 @@
   <div id="settingsModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-    <h2>Settings</h2>
+        <h2>Settings</h2>
         <span class="close">&times;</span>
       </div>
       <div class="modal-body">
@@ -51,8 +51,15 @@
         </div>
         <div class="settings-section">
           <h3>Data Management</h3>
-          <button id="exportButton" class="button">Export Read History</button>
-          <button id="importButton" class="button">Import Read History</button>
+          <button type="button" id="exportButton" class="button">Export Read History</button>
+          <button type="button" id="importButton" class="button">Import Read History</button>
+        </div>
+        <div class="settings-section">
+          <h3>About</h3>
+          <p>This is an unofficial, <a href="https://github.com/conjuncts/xkcd-reader">open-source</a> browser for XKCD comics. 
+            The data is stored entirely in the browser.
+            We follow xkcd's CC BY-NC 2.5 license &mdash; no ads, ever.
+            Many thanks to Randall Munroe for creating such an influential and entertaining webcomic!</p>
         </div>
       </div>
     </div>
@@ -63,8 +70,8 @@
       <a href="#" target="_blank" rel="noopener">🔗 xkcd</a> |
       <a href="#" target="_blank" rel="noopener">🔗 explainxkcd</a>
     </div>
-    <p>All comics are from <a href="https://xkcd.com" target="_blank" rel="noopener">xkcd.com</a> by Randall Munroe</p>
-    <p class="footer-note">This is an unofficial reader. Thank you Randall for your amazing work!</p>
+    <p>All comics are from xkcd.com by Randall Munroe.</p>
+    <p class="footer-note">This reader is unofficial. Thank you Randall for your amazing work!</p>
   </footer>
 
   <script type="module" src="src/main.ts"></script>

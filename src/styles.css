@@ -7,12 +7,12 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .comic-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 0 20px 20px 20px;
   text-align: center;
   flex: 1;
 }
@@ -29,6 +29,7 @@ body {
   justify-content: center;
   gap: 20px;
   margin: 20px 0;
+  flex-wrap: wrap; /* Allow buttons to wrap on small screens */
 }
 
 .comic-image {
@@ -70,7 +71,14 @@ a:hover {
   text-decoration: none;
 }
 
-.button:hover {
+@media (hover: hover) {
+  .button:hover {
+    background-color: #FFF;
+    color: var(--xkcd);
+  }
+}
+
+.button:active {
   background-color: #FFF;
   color: var(--xkcd);
 }
@@ -81,7 +89,7 @@ a:hover {
 }
 
 #comicDisplay {
-  padding: 20px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
   border-radius: 16px;
 }
 
@@ -149,6 +157,10 @@ a:hover {
   margin: 0 0 10px 0;
   color: #666;
   font-size: 1.1em;
+}
+
+.settings-section .button.button {
+  margin-bottom: 10px;
 }
 
 /* Show modal when active */
@@ -223,17 +235,15 @@ input:focus + .toggle-slider {
   text-align: center;
   padding: 10px;
   margin-top: auto;
-  margin-bottom: 3vh;
   color: #999;
   font-size: 14px;
   border-top: 1px solid #eee;
 }
 
-.footer-note {
+.footer-note, .footer p p {
   color: #aaa;
   font-style: italic;
-  margin-top: 8px;
-  font-size: 12px;
+  margin-top: -8px;
 }
 
 /* Interactive comic message */
@@ -260,9 +270,45 @@ input:focus + .toggle-slider {
 
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 15px;
-    /* justify-content: center; */
+    gap: 8px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Default grid for large screens */
+.calendar-grid {
+  grid-template-columns: repeat(10, 1fr);
+}
+
+/* Medium screens */
+@media screen and (max-width: 1024px) {
+  .calendar-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+/* Small screens */
+@media screen and (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Mobile screens */
+@media screen and (max-width: 480px) {
+  .calendar-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 10px;
+  }
+}
+
+/* Extra small screens */
+@media screen and (max-width: 320px) {
+  .calendar-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .calendar-comic {
@@ -327,4 +373,29 @@ input:focus + .toggle-slider {
 
 .comic-news {
   font-style: italic;
+}
+
+/* Mobile-specific styles */
+@media screen and (max-width: 480px) {
+  .management .button {
+    padding: 1.5px 8px; /* Slightly reduce padding on mobile */
+  }
+
+  .navigation {
+    margin: 20px 0;
+  }
+  
+  /* Hide text in settings and calendar buttons on mobile */
+  /* #settingsButton span, */
+  .management button span,
+  .button[href="/calendar"] span {
+    display: none;
+  }
+  
+  /* Adjust modal for mobile */
+  .modal-content {
+    margin: 10% auto;
+    width: 90%;
+    padding: 15px;
+  }
 }
