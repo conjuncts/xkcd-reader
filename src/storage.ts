@@ -57,10 +57,21 @@ export class ReadTracker {
         return aux['incognitoLast'] ?? true;
     }
 
+    static getShowAltText(): boolean {
+        const aux = this.getAuxData();
+        return aux['showAltText'] ?? true;
+    }
+
     static saveIncognitoStatus(incognito: boolean): void {
         console.log(incognito);
         const aux = this.getAuxData();
         aux['incognitoLast'] = incognito;
+        localStorage.setItem(this.AUX_DATA, JSON.stringify(aux));
+    }
+
+    static saveShowAltText(show: boolean): void {
+        const aux = this.getAuxData();
+        aux['showAltText'] = show;
         localStorage.setItem(this.AUX_DATA, JSON.stringify(aux));
     }
 

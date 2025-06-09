@@ -6,9 +6,11 @@ class XKCDReader {
     private currentComic: ComicData | null = null;
     private latestComicId: number | null = null;
     private isIncognito: boolean = true;
+    private showAltText: boolean = true;
 
     constructor() {
         this.isIncognito = ReadTracker.getIncognitoStatus();
+        this.showAltText = ReadTracker.getShowAltText();
         this._rerenderIncognito();
         console.log('Incognito:', this.isIncognito);
         
@@ -177,28 +179,32 @@ class XKCDReader {
         }
 
         // Display meta information
-        // const comicLink = document.getElementById('comicLink')!;
         const comicNews = document.getElementById('comicNews')!;
+        const altDiv = document.getElementById('comicAltDiv')!;
+        const altTextDiv = document.getElementById('comicAltText')!;
+        const linkElement = document.getElementById('comicLink') as HTMLLinkElement;
 
-        // Display link if present
-        // if (comic.link) {
-        //     comicLink.innerHTML = `<a href="${comic.link}" target="_blank" rel="noopener">🔗 Related Link</a>`;
-        // } else {
-        //     comicLink.textContent = '';
-        // }
+        // Toggle visibility of alt text and link
+        altDiv.style.display = this.showAltText ? '' : 'none';
+
+        // Set alt text content
+        if (comic.alt) {
+            altTextDiv.textContent = comic.alt;
+        } else {
+            altTextDiv.textContent = '';
+        }
+        
+        // Set link if present
+        if (comic.link) {
+            linkElement.href = comic.link;
+            linkElement.textContent = '🔗 Attached Link';
+        }
 
         // Display news if present
         if (comic.news) {
             let news = comic.news;
-            // news = news.startsWith('"') ? news.slice(1, -1) : news;
-            // console.log(news);
-            // console.log(news[0]);
-            // if (comic.trusted) {
-            //     comicNews.innerHTML = news;
-            // } else {
-            //     comicNews.textContent = news;
-            // }
             this.sanitizeAndDisplayHtml(news, comicNews);
+            comicNews.style.display = '';
         } else {
             comicNews.style.display = 'none';
         }
@@ -272,13 +278,12 @@ class XKCDReader {
      */
     private _rerenderIncognito(): void {
         const incognitoToggle = document.getElementById('incognitoToggle') as HTMLInputElement;
-        if (incognitoToggle) {
-            incognitoToggle.checked = this.isIncognito;
-        }
-        const incognitoLabel = document.getElementById('incognitoLabel') as HTMLSpanElement;
-        if (incognitoLabel) {
-            incognitoLabel.textContent = this.isIncognito ? 'Incognito Mode (ON)' : 'Incognito Mode (OFF)';
-        }
+        const incognitoLabel = document.getElementById('incognitoLabel')!;
+        incognitoToggle.checked = this.isIncognito;
+        incognitoLabel.textContent = this.isIncognito ? 'Incognito Mode (ON)' : 'Incognito Mode (OFF)';
+
+        const altTextToggle = document.getElementById('altTextToggle') as HTMLInputElement;
+        altTextToggle.checked = this.showAltText;
     }
 
     private initializeEventListeners(): void {
@@ -373,6 +378,16 @@ class XKCDReader {
             };
             
             input.click();
+        });
+
+        // Alt text toggle
+        document.getElementById('altTextToggle')?.addEventListener('change', (event) => {
+            const target = event.target as HTMLInputElement;
+            this.showAltText = target.checked;
+            ReadTracker.saveShowAltText(this.showAltText);
+            if (this.currentComic) {
+                this.displayComic(this.currentComic);
+            }
         });
 
         // keybinds

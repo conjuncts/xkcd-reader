@@ -26,7 +26,11 @@
       <a href="/calendar" class="button" id="calendarButton">📅 <span><u>C</u>alendar</span></a>
     </div>
     <div id="comicMeta" class="comic-meta">
-      <!-- <div id="comicLink" class="comic-link"></div> -->
+      <div id="comicAltDiv" class="comic-alt-text">
+        <span id="comicAltText"></span>
+        <a id="comicLink" class="comic-link"></a>
+      </div>
+      
       <div id="comicNews" class="comic-news"></div>
     </div>
   </div>
@@ -47,6 +51,13 @@
               <span class="toggle-slider"></span>
             </label>
             <span id="incognitoLabel" class="toggle-label">Incognito Mode</span>
+          </div>
+          <div class="toggle-container">
+            <label class="toggle-switch">
+              <input type="checkbox" id="altTextToggle">
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label">Show Alt Text</span>
           </div>
         </div>
         <div class="settings-section">
@@ -76,7 +87,7 @@
       <a href="#" target="_blank" rel="noopener">🔗 explainxkcd</a>
     </div>
     <p>All comics are from xkcd.com by Randall Munroe.</p>
-    <p class="footer-note">This reader is unofficial. Thank you Randall for your amazing work!</p>
+    <p class="footer-note">This reader is unofficial. Thanks Randall for your amazing work!</p>
   </footer>
 
   <script type="module" src="src/main.ts"></script>

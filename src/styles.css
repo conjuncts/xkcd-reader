@@ -89,7 +89,7 @@ a:hover {
 }
 
 .button.danger {
-  background-color: #ba4141;
+  background-color: #b94646;
   border-color: #b71c1c;
 }
 
@@ -387,7 +387,24 @@ input:focus + .toggle-slider {
 }
 
 .comic-news {
+  margin: 10px 0;
   font-style: italic;
+  color: #666;
+}
+
+.comic-alt-text {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  color: #333;
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+.comic-alt-text a {
+  display: inline-block;
+  margin-top: 8px;
 }
 
 /* Mobile-specific styles */
