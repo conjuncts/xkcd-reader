@@ -404,7 +404,16 @@ class XKCDReader {
             }
         });
 
-
+        // Clear read history
+        document.getElementById('clearButton')?.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear your read history? This cannot be undone.')) {
+                ReadTracker.clearReadHistory();
+                // Refresh the current comic to update its read status
+                if (this.currentComic) {
+                    this.displayComic(this.currentComic);
+                }
+            }
+        });
     }
 }
 

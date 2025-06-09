@@ -88,6 +88,21 @@ a:hover {
   cursor: not-allowed;
 }
 
+.button.danger {
+  background-color: #ba4141;
+  border-color: #b71c1c;
+}
+
+.button.danger:hover {
+  background-color: #FFF;
+  color: #d32f2f;
+}
+
+.button.danger:active {
+  background-color: #FFF;
+  color: #d32f2f;
+}
+
 #comicDisplay {
   padding: 10px 10px 10px 10px;
   border-radius: 16px;

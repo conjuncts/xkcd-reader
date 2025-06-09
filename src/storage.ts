@@ -118,4 +118,8 @@ export class ReadTracker {
         
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(status));
     }
+
+    static clearReadHistory(): void {
+        localStorage.removeItem(this.STORAGE_KEY);
+    }
 }
