@@ -4,7 +4,6 @@ export interface ComicReadStatus {
 }
 
 export interface AuxiliaryData {
-    readLast: number;
     incognitoLast: boolean;
 }
 

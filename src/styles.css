@@ -387,7 +387,7 @@ input:focus + .toggle-slider {
   
   /* Hide text in settings and calendar buttons on mobile */
   /* #settingsButton span, */
-  .management button span,
+  .management .button span,
   .button[href="/calendar"] span {
     display: none;
   }

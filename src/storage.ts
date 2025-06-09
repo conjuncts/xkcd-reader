@@ -37,11 +37,6 @@ export class ReadTracker {
         }
         
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(status));
-
-        var aux = this.getAuxData();
-        aux['readLast'] = comicId.toString();
-
-        localStorage.setItem(this.AUX_DATA, JSON.stringify(aux));
     }
 
     static markAsUnread(comicId: number): void {
@@ -54,11 +49,6 @@ export class ReadTracker {
             // }
         }
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(status));
-    }
-
-    static getLastRead(): number | null {
-        const aux = this.getAuxData();
-        return parseInt(aux['readLast'] || '');
     }
 
     static getIncognitoStatus(): boolean {

@@ -170,6 +170,12 @@ class XKCDReader {
             title.title = '';
         }
 
+        // Update calendar link with current comic number
+        const calendarLink = document.getElementById("calendarButton") as HTMLAnchorElement;
+        if (calendarLink) {
+            calendarLink.href = `/calendar?back=${comic.num}`;
+        }
+
         // Display meta information
         // const comicLink = document.getElementById('comicLink')!;
         const comicNews = document.getElementById('comicNews')!;
@@ -390,11 +396,6 @@ class XKCDReader {
                     break;
                 case 'c':
                     // calendar
-                    if (this.currentComic) {
-                        const aux = ReadTracker.getAuxData();
-                        aux['readLast'] = this.currentComic.num.toString();
-                        localStorage.setItem(ReadTracker['AUX_DATA'], JSON.stringify(aux));
-                    }
                     window.location.href = '/calendar';
                     break;
                 case 'Escape':

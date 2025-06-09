@@ -14,10 +14,26 @@ class XKCDCalendar {
 
     private async loadLatestComic(): Promise<void> {
         const comic = await fetchComic();
-        this.cameFrom = ReadTracker.getLastRead() ?? comic.num;
+        
+        // Get the 'back' parameter from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const backParam = urlParams.get('back');
+        this.cameFrom = backParam ? parseInt(backParam) : comic.num;
+        
         this.latestComicId = comic.num;
 
-        this.currentPage = Math.ceil(this.cameFrom / this.comicsPerPage);
+        // Update back button URL
+        const backButton = document.getElementById('calendarBack') as HTMLAnchorElement;
+        if (backButton && this.cameFrom) {
+            backButton.href = `/${this.cameFrom}`;
+        }
+
+        // Ensure we have valid numbers before calculating the page
+        if (this.cameFrom && this.comicsPerPage) {
+            this.currentPage = Math.max(1, Math.ceil(this.cameFrom / this.comicsPerPage));
+        } else {
+            this.currentPage = 1;
+        }
         this.renderCalendar();
     }
 
