@@ -258,7 +258,7 @@ input:focus + .toggle-slider {
 .footer-note, .footer p p {
   color: #aaa;
   font-style: italic;
-  margin-top: -8px;
+  margin-top: -10px;
 }
 
 /* Interactive comic message */

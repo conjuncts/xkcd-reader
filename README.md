@@ -1,58 +1,41 @@
 ## minimal xkcd viewer **with read tracking**.
 
-License: MIT
 
-Credits
-- [favicon](https://www.explainxkcd.com/wiki/images/0/04/16px-BlackHat_head.png)
+## Cold Open
 
+After years of using the "random" button, I realized I've lost track of which comics I have and haven't read. While a random comic I would likely have seen before, I knew there were still many comics I haven't seen.
 
-## Cold Open 1
+Mathematically, this predicament is the [occupancy](https://en.wikipedia.org/wiki/Occupancy_problem) or [coupon collector's](https://en.wikipedia.org/wiki/Coupon_collector%27s_problem) problem. To see every comic, I can expect to click the "random" button far more (26700) than the actual number of comics (3100).
 
-I've been reading xkcd for years - for so long, I ran into a problem. I've forgotten which comics I have and haven't read. Reliance on the "random" button meant that a random comic would most likely pull up an already seen comic, but 
-
-Through overreliance on the "random" button, I reached a stage where any random comic I would have probably seen, yet still many unread comics remained (which I couldn't easily access). 
-
-This predicament is described mathematically as the [occupancy problem](https://en.wikipedia.org/wiki/Occupancy_problem) or the [coupon collector's problem](https://en.wikipedia.org/wiki/Coupon_collector%27s_problem). The number of expected "random" trials far exceeds the number of total comics.
-
-Of course, it is much more efficient to track which comics have and haven't been read. But it's also nice to have the freedom to read comics out of order, without worrying about which ones have been read.
-
-
-(Source: )
-
-I've been reading xkcd for years. But like being
-
-I would probably have seen a random comic despite still not knowing many unread comics.
-
-[Occupancy problem](https://www.math.uci.edu/~rvershyn/teaching/probability-PhD/occupancy.pdf) as the [number of empty bins](https://people.eecs.berkeley.edu/~jfc/cs174/lecs/lec5/lec5.pdf), and the "coupon collectors problem" describes the expected number of trials to see all comics. 
-
-Of course, it is much more efficient to track which comics have and haven't been read. While it is possible to read the comics in order, I also  the freedom
-
-
-## Cold Open 2
-
-After years of using the "random" button, I've lost track of which comics I have and haven't read. A random comic would most likely pull up an already seen comic, but still many comics remain left to be seen.
-
-This predicament is described mathematically as the [occupancy problem](https://en.wikipedia.org/wiki/Occupancy_problem) or the [coupon collector's problem](https://en.wikipedia.org/wiki/Coupon_collector%27s_problem). To see every comic, I'd have to click the "random" button far more than the actual number of comics.
 
 ![stats](experiments/unique_comics_vs_trials.png)
 
-Of course, it is more efficient to track the comics I have and haven't read. Sure, I could plan to read the comics in order. But I also enjoy the freedom to read comics at will, in no particular order.
+It's much more efficient to track the comics I have and haven't read. Sure, I could read the comics in order. But I also enjoy the freedom to read comics at will, in no particular order.
 
-After experimenting with existing options, I bit the bullet and made my own xkcd viewer.
+After experimenting with existing options, I bit the bullet and made my own xkcd viewer. I know there are other XKCD browsers (unixkcd, xkcd.wtf, [etc](https://www.explainxkcd.com/wiki/index.php/Browser_helpers), [etc](https://www.explainxkcd.com/wiki/index.php/explain_xkcd:Community_portal/Admin_requests#XKCD_Browser)), but surprisingly none of them tackles tracking read progress (to my knowledge).
 
 
 - Minimal
 - No ads, ever
+- Entirely in browser
 - Open source
 - Calendar view
+- Quick links to explainxkcd
 - Easy import/export
-
-## Mobile
-
-The website was designed for desktop, so mobile UI improvements still need to be implemented.
+- Alerts interactive comics
+- Alt text (for mobile)
 
 ## Notable Features
 
 - Hovering over the comic title reveals the publication date.
 - The footer links to the corresponding xkcd and explainxkcd pages.
-- A few comics, like [#1047](https://xkcd.com/1047/), have subtle alterations to the "news" section. (See the top: "Lots of emails mention the physicist favorite, 1 year = pi x 107 seconds.") Since's it's easy for this to go unnoticed, the client [lists it](https://readxkcd.com/1047) below the "read" buttons.
+- Alterations to the header (present in [#1047](https://xkcd.com/1047/) et al.) are easy to miss. Here, they are displayed alongside the alt text.
+
+
+## License
+
+As stated on xkcd.com, Randall's comics are [CC BY-NC 2.5](https://creativecommons.org/licenses/by-nc/2.5/), except #343 and #739 ([CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/deed.en)) The XKCD reader code is MIT licensed. Randall, if you're reading this -- you're completely welcome to incorporate any of my code!
+
+## Credits
+
+The favicon is from explainxkcd.com, a phenomenal resource. And of course, huge thanks to Randall Munroe for the great webcomic -- and graciously making this all possible.
