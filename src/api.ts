@@ -66,10 +66,14 @@ export async function fetchComic(id?: number): Promise<ComicData> {
     }
 
     // 2. Try cache
-    const cached = await fetchFromCache(id);
-    if (cached) {
-        cached.isInteractive = isInteractiveComic(id);
-        return cached;
+    try {
+        const cached = await fetchFromCache(id);
+        if (cached) {
+            cached.isInteractive = isInteractiveComic(id);
+            return cached;
+        }
+    } catch (error) {
+        console.warn(`Cache fetch failed for ID ${id}:`, error);
     }
 
     // 3. Fallback to proxy
