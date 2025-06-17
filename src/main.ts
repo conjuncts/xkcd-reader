@@ -198,6 +198,9 @@ class XKCDReader {
         if (comic.link) {
             linkElement.href = comic.link;
             linkElement.textContent = '🔗 Attached Link';
+        } else {
+            linkElement.href = '';
+            linkElement.textContent = '';
         }
 
         // Display news if present
