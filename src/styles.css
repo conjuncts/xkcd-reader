@@ -29,6 +29,7 @@ body {
   justify-content: center;
   gap: 20px;
   margin: 20px 0;
+  user-select: none;
 }
 
 .management {
@@ -426,6 +427,7 @@ input:focus + .toggle-slider {
   /* Hide text in settings and calendar buttons on mobile */
   /* #settingsButton span, */
   .management .button span,
+  .navigation .button span,
   .button[href="/calendar"] span {
     display: none;
   }

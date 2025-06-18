@@ -82,7 +82,31 @@ class XKCDReader {
         }
     }
 
+    private async loadRandomUnreadComic(): Promise<void> {
+        if (!this.latestComicId) {
+            await this.loadLatestComic();
+        }
 
+        const readStatus = ReadTracker.getReadStatus();
+        const unreadComics: number[] = [];
+
+        // Find all unread comics
+        for (let i = 1; i <= this.latestComicId!; i++) {
+            if (!readStatus[i]) {
+                unreadComics.push(i);
+            }
+        }
+
+        if (unreadComics.length === 0) {
+            // If all comics are read, just pick a random one
+            const randomId = Math.floor(Math.random() * this.latestComicId!) + 1;
+            await this.loadComic(randomId);
+        } else {
+            // Pick a random unread comic
+            const randomIndex = Math.floor(Math.random() * unreadComics.length);
+            await this.loadComic(unreadComics[randomIndex]);
+        }
+    }
 
     private updateNextButton(shouldBeDisabled: boolean): void {
         const nextButton = document.getElementById('nextButton') as HTMLButtonElement;
@@ -300,6 +324,10 @@ class XKCDReader {
 
         document.getElementById('latestButton')?.addEventListener('click', () => {
             if (this.currentComic) this.loadLatestComic();
+        });
+
+        document.getElementById('randomButton')?.addEventListener('click', () => {
+            this.loadRandomUnreadComic();
         });
 
         document.getElementById('readButton')?.addEventListener('click', () => {
