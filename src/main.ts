@@ -452,7 +452,11 @@ class XKCDReader {
                 case 'c':
                 case 'C':
                     // calendar
-                    window.location.href = '/calendar';
+                    if (this.currentComic) {
+                        window.location.href = `/calendar?back=${this.currentComic.num}`;
+                    } else {
+                        window.location.href = '/calendar';
+                    }
                     break;
                 case 'Escape':
                     modal.classList.remove('active');
