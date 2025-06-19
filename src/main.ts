@@ -428,21 +428,35 @@ class XKCDReader {
 
             switch (event.key) {
                 case 'ArrowLeft':
+                case 'a':
+                case 'A':
                     if (this.currentComic) this.loadComic(this.currentComic.num - 1);
                     break;
                 case 'ArrowRight':
+                case 'd':
+                case 'D':
                     if (this.currentComic) this.loadComic(this.currentComic.num + 1);
                     break;
+                case 'n':
+                case 'N':
+                    this.loadRandomUnreadComic();
+                    break;
                 case 'r':
+                case 'R':
                     if (this.currentComic) this.markRead(this.currentComic.num);
                     break;
-                case 'm':
                 case 'u':
+                case 'U':
                     markUnreadListener();
                     break;
                 case 'c':
+                case 'C':
                     // calendar
-                    window.location.href = '/calendar';
+                    if (this.currentComic) {
+                        window.location.href = `/calendar?back=${this.currentComic.num}`;
+                    } else {
+                        window.location.href = '/calendar';
+                    }
                     break;
                 case 'Escape':
                     modal.classList.remove('active');
