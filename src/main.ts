@@ -254,6 +254,17 @@ class XKCDReader {
         img.alt = comic.alt;
         img.title = comic.alt;
         img.className = 'comic-image';
+        
+        // Add srcset for 2x resolution
+        const lastDotIndex = comic.img.lastIndexOf('.');
+        const baseUrl = comic.img.substring(0, lastDotIndex);
+        const extension = comic.img.substring(lastDotIndex + 1);
+        img.srcset = `${baseUrl}_2x.${extension} 2x`;
+
+        // Add an onerror to delete the srcset
+        img.onerror = () => {
+            img.srcset = '';
+        };
 
         // Wrap image in a link - use comic.link if present, otherwise link to xkcd page
         if (comic.link) {
