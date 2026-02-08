@@ -34,7 +34,7 @@ After experimenting with existing options, I bit the bullet and made my own xkcd
 
 ## License
 
-As stated on xkcd.com, Randall's comics are [CC BY-NC 2.5](https://creativecommons.org/licenses/by-nc/2.5/), except #343 and #739 ([CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/deed.en)) The XKCD reader code is MIT licensed. Randall, if you're reading this -- you're completely welcome to reuse any of my code!
+As stated on xkcd.com, Randall's comics are [CC BY-NC 2.5](https://creativecommons.org/licenses/by-nc/2.5/), except #343 and #739 ([CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/deed.en)) The XKCD reader code is MIT licensed. Randall, if you're reading this -- I'd love to chat!
 
 ## Credits
 

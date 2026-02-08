@@ -81,10 +81,13 @@ export async function fetchComic(id?: number): Promise<ComicData> {
 }
 
 async function fetchViaProxy(id?: number): Promise<ComicData> {
-    const proxyUrl = 'https://corsproxy.io/?url=';
+    // const proxyUrl = 'https://corsproxy.io/?url=';
+    const proxyUrl = 'https://api.readxkcd.com/';
     const url = id
-        ? `https://xkcd.com/${id}/info.0.json`
-        : `https://xkcd.com/info.0.json`;
+        // ? `https://xkcd.com/${id}/info.0.json`
+        // : `https://xkcd.com/info.0.json`;
+        ? `${id}`
+        : "latest";
 
     const response = await fetch(proxyUrl + url);
     const comic = await response.json();
